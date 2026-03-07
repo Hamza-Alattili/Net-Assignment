@@ -1,48 +1,52 @@
+using Application.Repositories.Interface;
+using Application.Validators;
+using FluentValidation;
 using Infrastructure.Context;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Infrastructure.UnitOfWork;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// ==================== ????? DbContext ====================
+// DbContext ?? ?????? ????? ?????? ????????
+// ????? ????? ??? Entities ??? ????????? SQL
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"))
-    );
+);
 
+// ==================== ????? Unit of Work ====================
+// Unit of Work ???? ?? ???? ????????? ??? ?????? ????? (Atomic)
+builder.Services.AddScoped<IGenericRepository.IUnitOfWork, UnitOfWork>();
 
+// ==================== ????? MediatR ====================
+// MediatR ????? ????? Commands ? Queries ??? Handlers ?????? ???
+// AddMediatR ???? ?? ???? Handlers ?? Assembly ??????
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
+    // ????? ?? Handlers ?? Assembly ??? Application
+    cfg.RegisterServicesFromAssembly(typeof(CreateCustomerCommandValidator).Assembly);
+});
+
+// ==================== ????? FluentValidation ====================
+// FluentValidation ???? ????? ???? ????? ?????? ?? ??? ????????
+builder.Services.AddValidatorsFromAssemblyContaining<CreateCustomerCommandValidator>();
+
+// ==================== ????? HttpContextAccessor ====================
 builder.Services.AddHttpContextAccessor();
 
-
-var jwtSection = builder.Configuration.GetSection("Jwt");
-
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtSection["Issuer"],
-            ValidAudience = jwtSection["Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection["Key"])),
-
-        };
-    });
-
-
+// ==================== ????? Controllers ====================
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// ==================== ????? Swagger ====================
+// Swagger ???? ????? ??????? ??????? ??? API
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// ==================== ????? HTTP Pipeline ====================
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

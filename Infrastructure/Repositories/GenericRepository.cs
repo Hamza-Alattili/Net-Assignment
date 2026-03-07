@@ -1,5 +1,6 @@
 ﻿using Application.Repositories.Interface;
 using Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,38 +10,68 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
+    /// <summary>
+    /// Generic Repository - يوفر عمليات CRUD أساسية لأي Entity
+    /// هذا يقلل من تكرار الكود ويجعل العمل مع قاعدة البيانات أسهل
+    /// </summary>
     public class GenericRepository<T> : IGenericRepository.IRepository<T> where T : class
     {
         protected readonly ApplicationDbContext _context;
+        protected readonly DbSet<T> _dbSet;
 
-        public Task AddAsync(T entity)
+        public GenericRepository(ApplicationDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+            _dbSet = context.Set<T>();
         }
 
-        public void Delete(T entity)
+        /// <summary>
+        /// الحصول على entity محدد من خلال معرفه
+        /// </summary>
+        public async Task<T> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _dbSet.FindAsync(id);
         }
 
-        public Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
+        /// <summary>
+        /// الحصول على جميع entities
+        /// </summary>
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dbSet.ToListAsync();
         }
 
-        public Task<IEnumerable<T>> GetAllAsync()
+        /// <summary>
+        /// البحث عن entities بناءً على شرط معين
+        /// مثال: FindAsync(c => c.Name == "Ahmed")
+        /// </summary>
+        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await _dbSet.Where(predicate).ToListAsync();
         }
 
-        public Task<T> GetByIdAsync(Guid id)
+        /// <summary>
+        /// إضافة entity جديد
+        /// </summary>
+        public async Task AddAsync(T entity)
         {
-            throw new NotImplementedException();
+            await _dbSet.AddAsync(entity);
         }
 
+        /// <summary>
+        /// تحديث entity موجود
+        /// </summary>
         public void Update(T entity)
         {
-            throw new NotImplementedException();
+            _dbSet.Update(entity);
+        }
+
+        /// <summary>
+        /// حذف entity
+        /// </summary>
+        public void Delete(T entity)
+        {
+            _dbSet.Remove(entity);
         }
     }
 }
