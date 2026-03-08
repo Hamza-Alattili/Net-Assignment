@@ -3,10 +3,7 @@ using FluentValidation;
 
 namespace Application.Validators
 {
-    /// <summary>
-    /// Validator لـ UpdateCustomerCommand
-    /// يتحقق من صحة البيانات المدخلة قبل تحديث بيانات عميل
-    /// </summary>
+    
     public class UpdateCustomerCommandValidator : AbstractValidator<UpdateCustomerCommand>
     {
         public UpdateCustomerCommandValidator()

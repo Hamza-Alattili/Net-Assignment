@@ -3,10 +3,7 @@ using FluentValidation;
 
 namespace Application.Validators
 {
-    /// <summary>
-    /// Validator لـ CancelOrderCommand
-    /// يتحقق من صحة البيانات المدخلة قبل إلغاء طلب
-    /// </summary>
+    
     public class CancelOrderCommandValidator : AbstractValidator<CancelOrderCommand>
     {
         public CancelOrderCommandValidator()

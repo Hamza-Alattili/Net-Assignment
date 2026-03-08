@@ -3,10 +3,7 @@ using FluentValidation;
 
 namespace Application.Validators
 {
-    /// <summary>
-    /// Validator لـ CreateOrderCommand
-    /// يتحقق من صحة البيانات المدخلة قبل إنشاء طلب جديد
-    /// </summary>
+    
     public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
     {
         public CreateOrderCommandValidator()

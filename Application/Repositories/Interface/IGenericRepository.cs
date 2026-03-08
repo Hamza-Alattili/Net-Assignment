@@ -21,26 +21,23 @@ namespace Application.Repositories.Interface
             void Delete(T entity);
         }
 
-        // واجهة مستودع العملاء (Customer Repository Interface)
-        // يمكن إضافة عمليات خاصة بالعملاء هنا
+        
         public interface ICustomerRepository : IRepository<Customer>
         {
             Task<Customer> GetCustomerWithOrdersAsync(Guid id);
         }
 
-        // واجهة مستودع الطلبات (Order Repository Interface)
         public interface IOrderRepository : IRepository<Order>
         {
             Task<IEnumerable<Order>> GetOrdersByStatusAsync(OrderStatus status);
         }
 
-        // واجهة وحدة العمل (Unit of Work Interface)
-        // تضمن أن جميع التغييرات على قاعدة البيانات تتم كعملية واحدة (Atomic)
+   
         public interface IUnitOfWork : IDisposable
         {
             ICustomerRepository Customers { get; }
             IOrderRepository Orders { get; }
-            Task<int> CompleteAsync(); // لحفظ التغييرات في قاعدة البيانات
+            Task<int> CompleteAsync(); 
         }
     }
 }

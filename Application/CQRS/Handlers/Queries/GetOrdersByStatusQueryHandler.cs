@@ -5,16 +5,7 @@ using MediatR;
 
 namespace Application.CQRS.Handlers.Queries
 {
-    /// <summary>
-    /// Handler لـ GetOrdersByStatusQuery
-    /// يتولى تنفيذ عملية استرجاع الطلبات المصفاة حسب الحالة
-    /// 
-    /// الخطوات:
-    /// 1. استقبال الـ Query من Controller
-    /// 2. البحث عن جميع الطلبات بالحالة المحددة
-    /// 3. تحويل البيانات إلى DTO
-    /// 4. إرجاع قائمة الطلبات
-    /// </summary>
+    
     public class GetOrdersByStatusQueryHandler : IRequestHandler<GetOrdersByStatusQuery, List<OrderDto>>
     {
         private readonly IGenericRepository.IUnitOfWork _unitOfWork;
@@ -26,10 +17,8 @@ namespace Application.CQRS.Handlers.Queries
 
         public async Task<List<OrderDto>> Handle(GetOrdersByStatusQuery request, CancellationToken cancellationToken)
         {
-            // البحث عن جميع الطلبات بالحالة المحددة
             var orders = await _unitOfWork.Orders.GetOrdersByStatusAsync(request.Status);
 
-            // تحويل البيانات إلى DTO
             var orderDtos = orders.Select(o => new OrderDto
             {
                 Id = o.Id,

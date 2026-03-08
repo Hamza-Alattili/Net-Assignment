@@ -5,16 +5,7 @@ using MediatR;
 
 namespace Application.CQRS.Handlers.Queries
 {
-    /// <summary>
-    /// Handler لـ GetCustomerQuery
-    /// يتولى تنفيذ عملية استرجاع بيانات عميل مع أحدث طلباته
-    /// 
-    /// الخطوات:
-    /// 1. استقبال الـ Query من Controller
-    /// 2. البحث عن العميل مع طلباته
-    /// 3. تحويل البيانات إلى DTO
-    /// 4. إرجاع البيانات
-    /// </summary>
+   
     public class GetCustomerQueryHandler : IRequestHandler<GetCustomerQuery, CustomerWithOrdersDto>
     {
         private readonly IGenericRepository.IUnitOfWork _unitOfWork;
@@ -26,7 +17,6 @@ namespace Application.CQRS.Handlers.Queries
 
         public async Task<CustomerWithOrdersDto> Handle(GetCustomerQuery request, CancellationToken cancellationToken)
         {
-            // البحث عن العميل مع طلباته
             var customer = await _unitOfWork.Customers.GetCustomerWithOrdersAsync(request.CustomerId);
 
             if (customer == null)
@@ -34,7 +24,6 @@ namespace Application.CQRS.Handlers.Queries
                 throw new Exception($"العميل برقم {request.CustomerId} غير موجود");
             }
 
-            // تحويل البيانات إلى DTO
             var customerDto = new CustomerWithOrdersDto
             {
                 Id = customer.Id,

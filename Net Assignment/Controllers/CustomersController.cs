@@ -6,15 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Net_Assignment.Controllers
 {
-    /// <summary>
-    /// Customers Controller
-    /// يتولى جميع العمليات المتعلقة بالعملاء
-    /// 
-    /// الـ Endpoints:
-    /// POST /api/customers - إنشاء عميل جديد
-    /// PUT /api/customers/{id} - تحديث بيانات عميل
-    /// GET /api/customers/{id} - الحصول على بيانات عميل مع طلباته
-    /// </summary>
+    
     [ApiController]
     [Route("api/[controller]")]
     public class CustomersController : ControllerBase
@@ -26,11 +18,7 @@ namespace Net_Assignment.Controllers
             _mediator = mediator;
         }
 
-        /// <summary>
-        /// إنشاء عميل جديد
-        /// </summary>
-        /// <param name="command">بيانات العميل الجديد</param>
-        /// <returns>معرف العميل الجديد</returns>
+      
         [HttpPost]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -47,12 +35,7 @@ namespace Net_Assignment.Controllers
             }
         }
 
-        /// <summary>
-        /// تحديث بيانات عميل موجود
-        /// </summary>
-        /// <param name="id">معرف العميل</param>
-        /// <param name="command">البيانات المحدثة</param>
-        /// <returns>لا يوجد محتوى</returns>
+        
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -71,11 +54,7 @@ namespace Net_Assignment.Controllers
             }
         }
 
-        /// <summary>
-        /// الحصول على بيانات عميل مع أحدث طلباته
-        /// </summary>
-        /// <param name="id">معرف العميل</param>
-        /// <returns>بيانات العميل مع الطلبات</returns>
+        
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(CustomerWithOrdersDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

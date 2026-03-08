@@ -7,15 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Net_Assignment.Controllers
 {
-    /// <summary>
-    /// Orders Controller
-    /// يتولى جميع العمليات المتعلقة بالطلبات
-    /// 
-    /// الـ Endpoints:
-    /// POST /api/orders - إنشاء طلب جديد
-    /// DELETE /api/orders/{id}/cancel - إلغاء طلب
-    /// GET /api/orders/status/{status} - الحصول على طلبات بحالة معينة
-    /// </summary>
+    
     [ApiController]
     [Route("api/[controller]")]
     public class OrdersController : ControllerBase
@@ -27,11 +19,7 @@ namespace Net_Assignment.Controllers
             _mediator = mediator;
         }
 
-        /// <summary>
-        /// إنشاء طلب جديد
-        /// </summary>
-        /// <param name="command">بيانات الطلب الجديد</param>
-        /// <returns>معرف الطلب الجديد</returns>
+      
         [HttpPost]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -48,11 +36,6 @@ namespace Net_Assignment.Controllers
             }
         }
 
-        /// <summary>
-        /// إلغاء طلب موجود
-        /// </summary>
-        /// <param name="id">معرف الطلب</param>
-        /// <returns>لا يوجد محتوى</returns>
         [HttpDelete("{id}/cancel")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -71,11 +54,7 @@ namespace Net_Assignment.Controllers
             }
         }
 
-        /// <summary>
-        /// الحصول على جميع الطلبات بحالة معينة
-        /// </summary>
-        /// <param name="status">حالة الطلب (Pending, Completed, Cancelled)</param>
-        /// <returns>قائمة الطلبات</returns>
+        
         [HttpGet("status/{status}")]
         [ProducesResponseType(typeof(List<OrderDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
