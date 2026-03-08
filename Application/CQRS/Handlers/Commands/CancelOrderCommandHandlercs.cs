@@ -17,7 +17,7 @@ namespace Application.CQRS.Handlers.Commands
     /// 5. تحديث حالة الطلب إلى Cancelled
     /// 6. حفظ التغييرات
     /// </summary>
-    public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand>
+    public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, bool>
     {
         private readonly IGenericRepository.IUnitOfWork _unitOfWork;
 
@@ -55,6 +55,11 @@ namespace Application.CQRS.Handlers.Commands
 
             // حفظ التغييرات
             await _unitOfWork.CompleteAsync();
+        }
+
+        Task<bool> IRequestHandler<CancelOrderCommand, bool>.Handle(CancelOrderCommand request, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

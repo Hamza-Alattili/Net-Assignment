@@ -6,7 +6,7 @@ namespace Application.CQRS.Commands
     /// Command لإلغاء طلب موجود
     /// يتم تنفيذه بواسطة CancelOrderCommandHandler
     /// </summary>
-    public class CancelOrderCommand : IRequest<Unit>
+    public class CancelOrderCommand : IRequest<bool>
     {
         public Guid OrderId { get; set; }
     }

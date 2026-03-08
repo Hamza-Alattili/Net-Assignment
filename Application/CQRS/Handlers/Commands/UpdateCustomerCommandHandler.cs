@@ -15,7 +15,7 @@ namespace Application.CQRS.Handlers.Commands
     /// 4. تحديث البيانات
     /// 5. حفظ التغييرات
     /// </summary>
-    public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand>
+    public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, bool>
     {
         private readonly IGenericRepository.IUnitOfWork _unitOfWork;
 
@@ -43,6 +43,11 @@ namespace Application.CQRS.Handlers.Commands
 
             // حفظ التغييرات
             await _unitOfWork.CompleteAsync();
+        }
+
+        Task<bool> IRequestHandler<UpdateCustomerCommand, bool>.Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }
